@@ -1,0 +1,40 @@
+<html>
+
+<body>
+    <form name="ajaxCallForm">
+        {% csrf_token %}
+        <input type="text" placeholder="data" name="data">
+        <button type="submit">Send Ajax Call</button>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+        $(function(){
+
+            $('form[name=ajaxCallForm]').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                url: '/ajaxCall/call1/',
+                dataType: 'json',
+                method: 'POST',
+                data:{
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    data:$('input[name=data]').val(),
+                },
+                success:function(resp){
+                    console.log(resp);
+                    alert(JSON.stringify(resp));
+                },
+                error:function(error){
+                    console.log(error);
+                    alert(JSON.stringify(error));
+                }
+            });
+            });
+
+        });
+
+    </script>
+</body>
+</html>
